@@ -9,6 +9,7 @@ if pack = LanguagePack.detect(ARGV[0], ARGV[1])
   end
 end
 
+exec <<-SH
 # parse and derive params
 BUILD_DIR=$1
 CACHE_DIR=$2
@@ -31,3 +32,4 @@ fi
 
 echo "-----> Extracting PhantomJS binaries" 
 tar zxf $CACHE_DIR/PJS_$FILE_NAME -C $BUILD_DIR/bin
+SH
