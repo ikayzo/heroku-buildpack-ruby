@@ -27,6 +27,6 @@ if ! [ -e $#{CACHE_DIR}/PJS_$FILE_NAME ]; then
   curl $BUILDPACK_PHANTOMJS_PACKAGE -s -o $#{CACHE_DIR}/PJS_$FILE_NAME
 fi
 
-echo "-----> Extracting PhantomJS binaries" 
+echo "-----> Extracting PhantomJS binaries to bin/phantomjs" 
 tar zxf $#{CACHE_DIR}/PJS_$FILE_NAME -C $#{BUILD_DIR}/bin
 SH
