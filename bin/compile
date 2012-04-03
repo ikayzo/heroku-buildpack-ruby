@@ -1,5 +1,4 @@
 #!/usr/bin/env ruby
-
 $:.unshift File.expand_path("../../lib", __FILE__)
 require "language_pack"
 
@@ -11,22 +10,21 @@ end
 
 BUILD_DIR=ARGV[0]
 CACHE_DIR=ARGV[1]
-exec <<-SH
+
 # config
 PJS_VERSION="1.5.0"
 PJS_S3_BUCKET="arachnys-kraken-phantomjs"
 
 # s3 packages
-PJS_FILE_NAME="buildpack-phantomjs-${PJS_VERSION}.tar.gz"
-BUILDPACK_PHANTOMJS_PACKAGE="http://${PJS_S3_BUCKET}.s3.amazonaws.com/${PJS_FILE_NAME}"
+PJS_FILE_NAME="buildpack-phantomjs-#{PJS_VERSION}.tar.gz"
+BUILDPACK_PHANTOMJS_PACKAGE="http://#{PJS_S3_BUCKET}.s3.amazonaws.com/#{PJS_FILE_NAME}"
 
-mkdir -p "$#{BUILD_DIR}/bin"
-mkdir -p $#{CACHE_DIR}
-if ! [ -e $#{CACHE_DIR}/PJS_$FILE_NAME ]; then
-  echo "-----> Fetching PhantomJS buildpack binaries"
-  curl $BUILDPACK_PHANTOMJS_PACKAGE -s -o $#{CACHE_DIR}/PJS_$FILE_NAME
-fi
+cache_target = "#{CACHE_DIR}/#{PJS_FILE_NAME}"
+unless File.exist? cache_target
+  puts "-----> Fetching PhantomJS buildpack binaries"
+  `curl #{BUILDPACK_PHANTOMJS_PACKAGE} -s -o #{cache_target}`
+end
 
-echo "-----> Extracting PhantomJS binaries to bin/phantomjs" 
-tar zxf $#{CACHE_DIR}/PJS_$FILE_NAME -C $#{BUILD_DIR}/bin
-SH
+puts "-----> Extracting PhantomJS binaries to bin/phantomjs" 
+`mkdir -p #{BUILD_DIR}/bin`
+`tar zxf #{CACHE_DIR}/#{PJS_FILE_NAME} -C #{BUILD_DIR}/bin`
