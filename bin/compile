@@ -12,8 +12,8 @@ BUILD_DIR=ARGV[0]
 CACHE_DIR=ARGV[1]
 
 # config
-PJS_VERSION="1.5.0"
-PJS_S3_BUCKET="arachnys-kraken-phantomjs"
+PJS_VERSION="1.6.1"
+PJS_S3_BUCKET="stomita-buildpack-phantomjs"
 
 # s3 packages
 PJS_FILE_NAME="buildpack-phantomjs-#{PJS_VERSION}.tar.gz"
